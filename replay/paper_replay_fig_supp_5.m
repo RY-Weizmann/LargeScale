@@ -65,6 +65,7 @@ set(groot,  'defaultAxesTickDirMode', 'manual');
 annotation('textbox', [0.5 1 0 0], 'String',fig_name_str, 'HorizontalAlignment','center','Interpreter','none', 'FitBoxToText','on');
 
 % create panels
+clear panels
 w = 3.5;
 h = 2;
 x = [3 7.5 12 16.5];
@@ -105,7 +106,12 @@ panels{3}(2,2).Position(1) = panels{3}(2,2).Position(1)+0.2;
 panels{3}(1,4).Position(1) = panels{3}(1,4).Position(1)+0.2;
 panels{3}(2,4).Position(1) = panels{3}(2,4).Position(1)+0.2;
 
-total_offset = [0 0];
+panels{4}(1,1) = axes('position', [3 5 7 2.5]);
+panels{4}(1,2) = axes('position', [3 1 7 2.5]);
+panels{4}(2,1) = axes('position', [12 5 7 2.5]);
+panels{4}(2,2) = axes('position', [12 1 7 2.5]);
+
+total_offset = [0 2.5];
 for ii = 1:length(panels)
     subpanels = panels{ii};
     subpanels = subpanels(:);
@@ -113,6 +119,8 @@ for ii = 1:length(panels)
         subpanels(jj).Position([1 2]) = subpanels(jj).Position([1 2]) + total_offset;
     end
 end
+
+
 
 %% properties to plot
 features_names = {'duration';'compression';'distance';'distance_norm';};
@@ -209,6 +217,9 @@ for ii_EL = 1:length(early_late_IX)
             text(-0.5,0.5,days_types{ii_EL},'Units','normalized','HorizontalAlignment','center','FontSize',8);
             ylabel('Probability density','Units','normalized','Position',[-0.13 0.5]);
         end
+        if ii_EL==1 && ii_fn == 1
+            yticks([0 2 4]);
+        end
         hax=gca;
     %     hax.TickLength(1) = [0.025];
         hax.XRuler.TickLength(1) = 0.03;
@@ -222,7 +233,7 @@ end
 if exist('panels_hist_legend','var')
     delete(panels_hist_legend);
 end
-panels_hist_legend = axes('position', [3.8 23.5 0.3 0.25]);
+panels_hist_legend = axes('position', [3.8 26 0.3 0.25]);
 cla
 hold on
 plot([0 1], [1 1], 'color', epoch_type_clrs{1}, 'LineWidth',lw,'Clipping','off');
@@ -353,6 +364,49 @@ for ii_fn = 1:length(features_names)
     end
 end
 
+%% add MUA firing rate maps
+%===========================================================================
+%% load data
+[exp_list,T] = decoding_get_inclusion_list();
+T = T(exp_list,:);
+FR_maps = [];
+for ii_exp = 1:length(exp_list)
+    exp_ID = exp_list{ii_exp};
+    exp = exp_load_data(exp_ID,'MUA_FR_map');
+    FR_maps(ii_exp,:,:) = exp.MUA_FR_map.maps;
+end
+
+%%
+dir_arrow_str_map = containers.Map([1 2],{'\rightarrow','\leftarrow'});
+
+%%
+for ii_dir = 1:2
+    map_dir_str = sprintf('Flight direction %d %s',ii_dir,dir_arrow_str_map(ii_dir));
+
+    axes(panels{4}(1,ii_dir));
+    cla reset
+    hold on
+    x = linspace(0,1,size(FR_maps,3));
+    y = squeeze(FR_maps(:,ii_dir,:))';
+    plot(x,y);
+    plot(x,mean(y,2),'-k','LineWidth',2)
+    xlabel('Position (norm.)')
+    ylabel('Multiunit firing rate (Hz)')
+    text(0.1,0.9,map_dir_str,'units','normalized','FontSize',8);
+
+    axes(panels{4}(2,ii_dir));
+    cla reset
+    hold on
+    x = linspace(0,1,size(FR_maps,3));
+    y = squeeze(FR_maps(:,ii_dir,:))';
+    y = normalize(y,'zscore');
+    plot(x,y)
+    plot(x,mean(y,2),'-k','LineWidth',2)
+    xlabel('Position (norm.)')
+    ylabel('Multiunit firing rate (z)')
+    text(0.1,0.9,map_dir_str,'units','normalized','FontSize',8);
+end
+
 
 
 %% add panel letters
@@ -361,6 +415,10 @@ axes(panels{1}(1,1))
 text(-0.3,1.2, 'A', 'Units','normalized','FontWeight','bold','FontSize',font_size);
 axes(panels{3}(1))
 text(-0.4,1.1, 'B', 'Units','normalized','FontWeight','bold','FontSize',font_size);
+axes(panels{4}(1,1))
+text(-0.2,1.2, 'C', 'Units','normalized','FontWeight','bold','FontSize',font_size);
+axes(panels{4}(2,1))
+text(-0.2,1.2, 'D', 'Units','normalized','FontWeight','bold','FontSize',font_size);
 
 %%
 % fig_name = sprintf('%s_decoding_opt_%d',fig_name_str, params_opt);
@@ -376,24 +434,24 @@ disp('figure saved!')
 
 
 %% playground...
-exp_ID = 'b0184_d191202';
-exp = exp_load_data(exp_ID,'pos','rest');
-figure
-tiledlayout("flow")
-nexttile
-plot(exp.pos.proc_1D.ts, exp.pos.proc_1D.pos)
-nexttile
-hold on
-rest_durations = [exp.rest.events.duration];
-rest_ball_num = [exp.rest.events.ball_num];
-N = splitapply(@sum,rest_durations,rest_ball_num)
-ecdf(rest_durations(rest_ball_num==1))
-ecdf(rest_durations(rest_ball_num==2))
-nexttile
-hold on
-histogram(rest_durations(rest_ball_num==1),'Normalization','count','DisplayStyle','stairs')
-histogram(rest_durations(rest_ball_num==2),'Normalization','count','DisplayStyle','stairs')
-[~,ks_pval] = kstest2(rest_durations(rest_ball_num==1),rest_durations(rest_ball_num==2))
+% exp_ID = 'b0184_d191202';
+% exp = exp_load_data(exp_ID,'pos','rest');
+% figure
+% tiledlayout("flow")
+% nexttile
+% plot(exp.pos.proc_1D.ts, exp.pos.proc_1D.pos)
+% nexttile
+% hold on
+% rest_durations = [exp.rest.events.duration];
+% rest_ball_num = [exp.rest.events.ball_num];
+% N = splitapply(@sum,rest_durations,rest_ball_num)
+% ecdf(rest_durations(rest_ball_num==1))
+% ecdf(rest_durations(rest_ball_num==2))
+% nexttile
+% hold on
+% histogram(rest_durations(rest_ball_num==1),'Normalization','count','DisplayStyle','stairs')
+% histogram(rest_durations(rest_ball_num==2),'Normalization','count','DisplayStyle','stairs')
+% [~,ks_pval] = kstest2(rest_durations(rest_ball_num==1),rest_durations(rest_ball_num==2))
 
 %%
 function str = genSignifStrAstricks(pval)

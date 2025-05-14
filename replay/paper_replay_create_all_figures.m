@@ -12,14 +12,14 @@ paper_replay_fig_2          % fig 3 - population
 paper_replay_fig_3          % fig 5 - directionality + 2 bats (behavioral relevance)
 
 % supp
-paper_replay_fig_supp_1     % EDF1 - many examples
-paper_replay_fig_supp_2     % EDF2 - replay decoding deconstructed
-paper_replay_fig_supp_3     % EDF3 - replay vs flight speed + stats
-paper_replay_fig_supp_4     % EDF4 - per bat results
-                            % EDF5 - shir long replays
-paper_replay_fig_supp_5     % EDF6 - novelty from day 1
-paper_replay_fig_supp_MUA_FR_maps % EDF7
-paper_replay_fig_supp_6     % EDF8 - reverse/forward + future+past + takeoff/landing/midair + ball1/ball2
+paper_replay_fig_supp_1     % S1 - many examples
+paper_replay_fig_supp_2     % S2 - replay decoding deconstructed
+paper_replay_fig_supp_3     % S3 - replay vs flight speed + stats
+paper_replay_fig_supp_4     % S4 - per bat results
+                            % S5 - shir long replays
+paper_replay_fig_supp_5     % S6 - novelty from day 1 + MUA FR maps
+% paper_replay_fig_supp_MUA_FR_maps %
+paper_replay_fig_supp_6     % S7 - reverse/forward + future+past + takeoff/landing/midair + ball1/ball2
 
-% paper_replay_fig_supp_replay_directionality % EDF9 --> move to main fig 5
-paper_replay_fig_supp_7     % EDF9 - 2bats
+% paper_replay_fig_supp_replay_directionality % S9 --> move to main fig 5
+paper_replay_fig_supp_7     % S8 - 2bats

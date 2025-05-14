@@ -1,4 +1,4 @@
-%% Replay - Fig supp 8 - reverse/forward + future+past + takeoff/landing/midair + ball1/ball2
+%% Replay - Fig supp 7 - reverse/forward + future+past + takeoff/landing/midair + ball1/ball2
 %%
 clear 
 clc
@@ -35,7 +35,7 @@ end
 %% define output files
 res_dir =  'L:\paper_replay\figures';
 mkdir(res_dir)
-fig_name_str = 'Figure S8';
+fig_name_str = 'Figure S7';
 fig_caption_str = ' ';
 log_name_str = [fig_name_str '_log_file' '.txt'];
 log_name_str = strrep(log_name_str , ':', '-');

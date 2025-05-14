@@ -32,7 +32,7 @@ smooth_n_points = 19;
 %% define output files
 res_dir =  'L:\paper_replay\figures';
 mkdir(res_dir)
-fig_name_str = 'Figure_5';
+fig_name_str = 'Figure 5';
 fig_caption_str = ' ';
 log_name_str = [fig_name_str '_log_file' '.txt'];
 log_name_str = strrep(log_name_str , ':', '-');
@@ -81,10 +81,10 @@ panels{4}(1) = axes('position', [2 9.5 5 3]);
 panels{4}(2) = axes('position', [2 12.85 5 0.4]);
 panels{5}(1) = axes('position', [8.8 9.5 3 3]);
 panels{5}(2) = axes('position', [8.8 12.5 3 .5]);
-panels{6}(1,1) = axes('position', [2 4.5 3 3]);
-panels{6}(1,2) = axes('position', [2+1.9 4.5+3 1 0.7]);
-panels{6}(2,1) = axes('position', [6.7 4.5 3 3]);
-panels{6}(2,2) = axes('position', [6.7+1.9 4.5+3 1 0.7]);
+panels{6}(1,1) = axes('position', [2 4.4 3 3]);
+panels{6}(1,2) = axes('position', [2+1.9 4.4+3 1 0.7]);
+panels{6}(2,1) = axes('position', [7 4.4 3 3]);
+panels{6}(2,2) = axes('position', [7+1.9 4.4+3 1 0.7]);
 
 %% ========================================================================
 %% arrange sessions to load (novelty bats)
@@ -713,7 +713,7 @@ text(.05,1.0,"p = "+ sprintf('%.2g',data.stats.Spearman.p), 'Units','normalized'
 % text(0,-.4,data.msg_str, 'Units','normalized','FontSize',10);
 h=refline(1,0);
 h.Color = .8.*[1 1 1];
-h.LineWidth = 1.5;
+h.LineWidth = 1.25;
 hax=gca;
 hax.XRuler.TickLength(1) = 0.035;
 hax.YRuler.TickLength(1) = 0.024;
@@ -750,7 +750,7 @@ xlabel('{\rho}','Units','normalized','Position',[0.5 .1])
 ylim([0 120])
 xticks([])
 yticks([])
-text(0.5,1.25,"p = "+ sprintf('%.2g',pval_nonparam), 'Units','normalized','FontSize',7,'HorizontalAlignment','Center');
+text(0.6,1.25,"p = "+ sprintf('%.2g',pval_nonparam), 'Units','normalized','FontSize',7,'HorizontalAlignment','Center');
 
 %% 2-back previous CO (revision)
 % fig4 = figure(Units="centimeters",Position=[5 5 6 6]);
@@ -767,7 +767,7 @@ text(0.5,1.25,"p = "+ sprintf('%.2g',pval_nonparam), 'Units','normalized','FontS
 % text(.3,0.95,"P = "+ sprintf('%.2g',pval), 'Units','normalized','FontSize',7);
 % h=refline(1,0);
 % h.Color = .8.*[1 1 1];
-% h.LineWidth = 1.5;
+% h.LineWidth = 1.25;
 % axis equal
 % xlim([0 135])
 % ylim([0 135])
@@ -803,7 +803,7 @@ text(0.05,1.1,"{\rho} = "+ sprintf('%.2f',stats.Spearman.r), 'Units','normalized
 text(0.05,1.0,"p = "+ sprintf('%.2f',stats.Spearman.p), 'Units','normalized','FontSize',7);
 h=refline(1,0);
 h.Color = .8.*[1 1 1];
-h.LineWidth = 1.5;
+h.LineWidth = 1.25;
 hax=gca;
 hax.XRuler.TickLength(1) = 0.035;
 hax.YRuler.TickLength(1) = 0.024;
@@ -850,7 +850,7 @@ axes(panels{2}(1))
 text(-0.3,1.25, 'B', 'Units','normalized','FontWeight','bold','FontSize',font_size);
 
 axes(panels{3}(1))
-text(-0.17,1.2, 'C', 'Units','normalized','FontWeight','bold','FontSize',font_size);
+text(-0.3,1.2, 'C', 'Units','normalized','FontWeight','bold','FontSize',font_size);
 axes(panels{3}(2))
 axes(panels{4}(1))
 text(-0.2,1.3, 'D', 'Units','normalized','FontWeight','bold','FontSize',font_size);

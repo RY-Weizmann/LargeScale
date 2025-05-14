@@ -453,7 +453,7 @@ ha.Y = [0 -0.04]+0.21;
 ha.HeadLength = 3;
 ha.HeadWidth = 3;
 ha.HeadStyle = 'cback2';
-text(0.1, 0.2, {'Median replay distance';sprintf('= %.1g%% of tunnel',m*100)},'FontSize',7,'HorizontalAlignment','left')
+text(0.1, 0.2, {'Median replay distance';sprintf('= %.2g%% of tunnel',m*100)},'FontSize',7,'HorizontalAlignment','left')
 
 % axes(panels{7}(2));
 % cla reset

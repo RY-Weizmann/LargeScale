@@ -1,4 +1,4 @@
-%% Replay - Fig supp 9 - two bats same map criteria
+%% Replay - Fig supp 8 - two bats same map criteria
 clear 
 clc
 close all
@@ -13,7 +13,7 @@ params_opt = 11; % decoding opt
 %% define output files
 res_dir =  'L:\paper_replay\figures';
 mkdir(res_dir)
-fig_name_str = 'Figure_S9';
+fig_name_str = 'Figure S8';
 fig_caption_str = '';
 log_name_str = [fig_name_str '_log_file' '.txt'];
 log_name_str = strrep(log_name_str , ':', '-');
@@ -195,7 +195,7 @@ text(.05,1.0,"p = "+ sprintf('%.2g',data.stats.Spearman.p), 'Units','normalized'
 % text(0,-.4,data.msg_str, 'Units','normalized','FontSize',10);
 h=refline(1,0);
 h.Color = .8.*[1 1 1];
-h.LineWidth = 1.5;
+h.LineWidth = 1.25;
 hax=gca;
 hax.XRuler.TickLength(1) = 0.035;
 hax.YRuler.TickLength(1) = 0.024;
@@ -232,7 +232,7 @@ xlabel('{\rho}','Units','normalized','Position',[0.5 .1])
 ylim([0 120])
 xticks([])
 yticks([])
-text(0.5,1.25,"p = "+ sprintf('%.2g',pval_nonparam), 'Units','normalized','FontSize',7,'HorizontalAlignment','Center');
+text(0.6,1.25,"p = "+ sprintf('%.2g',pval_nonparam), 'Units','normalized','FontSize',7,'HorizontalAlignment','Center');
 
 
 %% Scatter plot (control - next crossover)
@@ -260,7 +260,7 @@ text(.05,1.2,"{\rho} = "+ sprintf('%.2f',stats.Spearman.r), 'Units','normalized'
 text(.05,1.1,"p = "+ sprintf('%.2f',stats.Spearman.p), 'Units','normalized','FontSize',7);
 h=refline(1,0);
 h.Color = .8.*[1 1 1];
-h.LineWidth = 1.5;
+h.LineWidth = 1.25;
 hax=gca;
 hax.XRuler.TickLength(1) = 0.035;
 hax.YRuler.TickLength(1) = 0.024;
@@ -324,7 +324,7 @@ text(.05,1.2,"{\rho} = "+ sprintf('%.2f',stats.Spearman.r), 'Units','normalized'
 text(.05,1.1,"p = "+ sprintf('%.2f',stats.Spearman.p), 'Units','normalized','FontSize',7);
 h=refline(1,0);
 h.Color = .8.*[1 1 1];
-h.LineWidth = 1.5;
+h.LineWidth = 1.25;
 hax=gca;
 hax.XRuler.TickLength(1) = 0.035;
 hax.YRuler.TickLength(1) = 0.024;
@@ -389,7 +389,7 @@ text(.05,1.2,"{\rho} = "+ sprintf('%.2f',stats.Spearman.r), 'Units','normalized'
 text(.05,1.1,"p = "+ sprintf('%.2f',stats.Spearman.p), 'Units','normalized','FontSize',7);
 h=refline(1,0);
 h.Color = .8.*[1 1 1];
-h.LineWidth = 1.5;
+h.LineWidth = 1.25;
 hax=gca;
 hax.XRuler.TickLength(1) = 0.035;
 hax.YRuler.TickLength(1) = 0.024;

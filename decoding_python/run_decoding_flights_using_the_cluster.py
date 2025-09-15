@@ -360,7 +360,7 @@ def create_job_submission_str(exp_ID, opt_params, flights_to_decode, folder):
         f' --res_dir {res_dir}'
         )
     # bsub options
-    queue_name = 'new-short'
+    queue_name = 'short'
     # memory_usage = 8192
     memory_usage = 16384
     NUMBA_NUM_THREADS = 16

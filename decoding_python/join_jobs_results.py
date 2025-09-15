@@ -23,9 +23,9 @@ def join_jobs_results(path):
     return res
 
 #%% general definitions
-dir_IN = "X:\\sequences\\decoding"
+dir_IN = "W:/sequences/decoding"
 # dir_IN = "X:\\sequences\\decoding_without_likelihood_saved"
-dir_OUT = "F:\sequences\decoded"
+dir_OUT = "F:/sequences/decoded"
 
 #%%
 exp_IDs = [
@@ -373,19 +373,62 @@ exp_IDs = [
     ]
 
 #%%
+#exp_IDs = [
+#    'b0184_d191124',
+#    'b0184_d191125',
+#    'b0184_d191126',
+#    'b0184_d191127',
+#    ]
+
+# Raz 3-9-2025
 exp_IDs = [
-    'b0184_d191124',
-    'b0184_d191125',
-    'b0184_d191126',
-    'b0184_d191127',
+    #'b0148_d170606', did not finish run
+    'b0148_d170607',
+    'b0148_d170608',
+    'b0148_d170611',
+    'b0148_d170612',
+    'b0148_d170613',
+    'b0148_d170614',
+    'b0148_d170615',
+    'b0148_d170618',
+    #'b0148_d170619', did not finish run
+    'b0148_d170620',
+    #'b0148_d170621', did not finish run
+    'b0148_d170622',
+    'b0148_d170625',
+    'b0148_d170626',
+    'b0148_d170627',
+    'b0148_d170628',
+    'b0148_d170703',
+    'b0148_d170704',
+    'b0148_d170705',
+    'b0148_d170710',
+    'b0148_d170711',
+    'b0148_d170712',
+    'b0148_d170713',
+    'b0148_d170716',
+    'b0148_d170717',
+    'b0148_d170718',
+    'b0148_d170720',
+    'b0148_d170723',
+    'b0148_d170801',
+    #'b0148_d170802', did not finish run
+    'b0148_d170803',
+    'b0148_d170806',
+    'b0148_d170807',
     ]
+
+#Raz 3-9-2025
+opt_params_list = [8,9,10,11,12,13,14]
+
+
 
 #%%
 # session_type = 'flight'
 session_type = 'sleep'
 # session_type = 'rest'
 # opt_params_list = [4]
-opt_params_list = [19,20]
+# opt_params_list = [19,20]
 # opt_params_list = [16,17]
 # opt_params_list = [11,12,13,14,15,16,17,18,19,20,21]
 # opt_params_list = [17]

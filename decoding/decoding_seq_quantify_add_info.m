@@ -1,14 +1,17 @@
-function decoding_seq_quantify_add_info(exp_ID, epoch_type, params_opt , event_type)
+function decoding_seq_quantify_add_info(exp_ID, epoch_type, params_opt , event_type, exp)
 arguments
     %% 
     exp_ID = 'b0184_d191208'
     epoch_type {mustBeMember(epoch_type,{'sleep','rest','flight'})} = 'rest'
     params_opt = 11;
     event_type {mustBeMember(event_type,{'PE','posterior','ripples','MUA'})} = 'posterior'
+	exp = struct.empty;
 end
 
 %% load data
-exp = exp_load_data(exp_ID, 'details','path','rest','flight');
+if isempty(exp)
+	exp = exp_load_data(exp_ID, 'details','path','rest','flight');
+end
 dir_IN_OUT = 'F:\sequences\events_quantification';
 filename = fullfile(dir_IN_OUT, sprintf('%s_events_%s_dec_prm_%d_%s',exp_ID,epoch_type,params_opt,event_type));
 load(filename);

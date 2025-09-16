@@ -1,5 +1,10 @@
-function decoding_detect_posterior_events(decode)
-%%
+function decoding_detect_posterior_events(decode, exp)
+   arguments
+        %%
+        decode
+		exp = struct.empty;
+    end
+	
 exp_ID = decode.exp_ID;
 epoch_type = decode.epoch_type;
 params_opt = decode.params_opt;
@@ -7,12 +12,16 @@ params_opt = decode.params_opt;
 %% load data
 fprintf('Detecting posterior events for data:\n')
 fprintf('exp: %s, epoch type: %s, decoding paramset: %d\n', exp_ID, epoch_type, params_opt);
-exp = exp_load_data(exp_ID, 'details','path','rest');
+%exp = exp_load_data(exp_ID, 'details','path','rest');
 dir_IN = 'F:\sequences\decoded';
 dir_OUT = 'F:\sequences\posterior_events';
 figs_dir = fullfile(dir_OUT,'figs');
 mkdir(dir_OUT);
 mkdir(figs_dir);
+
+if isempty(exp)
+	exp = exp_load_data(exp_ID, 'details','path','rest');
+end
 
 %% get movement states
 mvmnt_states_IX = find(contains(decode.state, "empirical_movement") | contains(decode.state, "random_walk"));

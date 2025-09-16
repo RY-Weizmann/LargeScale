@@ -25,8 +25,20 @@ disp('-------------------------------------------------------------------')
 %     }
 
 %% load exp summary and choose exps
+exp_t = DS_get_exp_summary(); %Raz 3-9-25: actually 'L:\Analysis\Code\inclusion_lists\exp_summary.xlsx'
+use_positive_selection_exp_list = true;
+if use_positive_selection_exp_list
+    %positive_selection_exp_list = [{'b0148_d170607'},    'b0148_d170608',    'b0148_d170611',    'b0148_d170612',    'b0148_d170613',    'b0148_d170614',    'b0148_d170615',    'b0148_d170618',    'b0148_d170620',    'b0148_d170622',    'b0148_d170625',    'b0148_d170626',    'b0148_d170627',    'b0148_d170628',    'b0148_d170703',    'b0148_d170704',    'b0148_d170705',    'b0148_d170710',    'b0148_d170711',    'b0148_d170712',    'b0148_d170713',    'b0148_d170716',    'b0148_d170717',    'b0148_d170718',    'b0148_d170720',    'b0148_d170723',    'b0148_d170801',    'b0148_d170803',    'b0148_d170806',    'b0148_d170807',     'b0034_d180305',     'b0034_d180306',     'b0034_d180308',     'b0034_d180310',     'b0034_d180311',     'b0034_d180312',     'b0034_d180313',     'b0034_d180314',     'b0034_d180315'];
+    positive_selection_exp_list = [{'b0148_d170803'},    'b0148_d170806'];
+    mask = contains(string(exp_t.exp_ID), string(positive_selection_exp_list));
 % exp_t = DS_get_exp_summary();
+
 % exp_list = decoding_get_inclusion_list();
+ %       if  ~exp_t(contains(exp_t.exp_ID, {one_exp}),:)
+ %          exp_t(contains(exp_t.exp_ID, {one_exp}),:) = [];
+ %   end
+ %   end
+else
 % % exp_t(~contains(exp_t.recordingArena, ['200m']),:) = [];
 % % exp_t(~contains(exp_t.recordingArena, {'200m','120m'}),:) = [];
 % exp_t(exp_t.position_data_exist==0,:) = [];
@@ -69,6 +81,8 @@ exp_t = exp_t(exp_list,:);
 exp_t 
 whos exp_t 
 
+%Raz 3-9-2025: remove record causing code failures..
+exp_t(contains(exp_t.exp_ID, {'b0184'}),:) = [];
 %%
 % clc
 % close all
@@ -82,11 +96,18 @@ whos exp_t
 
 %% run some pop analysis
 % exp_list = exp_t.exp_ID;
-% decoding_flight_pop_analysis(exp_list);
+% decoding_flight_pop_analysis(exp_list); 
+%Raz 3-9-25: some analysis over all flights over all population
+%   -- dir_OUT = 'F:\sequences\decoded_figs\flight\population';
+%   -- epoch_type = 'flight';
+%   -- dir_IN = 'F:\sequences\decoded_figs\flight\conf_mat';
 
 %%
 forcecalc = 0;
 err_list = {};
+
+%Raz 10-9-2025: test for: b0034_d180305 sleep dec param 14
+
 for ii_exp = 1:height(exp_t)
     %%
     exp_ID = exp_t.exp_ID{ii_exp};
@@ -129,6 +150,10 @@ try
 %     exp_detect_rest(exp_ID);
     exp_detect_uturns(exp_ID);
 
+%     decoding_detect_spikes(exp_ID,forcecalc); %Raz 3-9-2025: actualy a wraper for "Nlx_detect_spikes_CSC3.m" -% Here we detect the spikes for each tetrode and save them.
+                                                % -- Output is 2 NTT files containing:
+                                                % 1. detected spikes
+                                                % 2. detected spikes + events that were detected but removed along the process
 
 %     decoding_detect_spikes(exp_ID,forcecalc);
 %     decoding_prepare_exp_data(exp_ID);
@@ -152,39 +177,49 @@ try
 % %         decoding_plot_flight_posterior(exp_ID, params_opt);
 %     end
     
-
-% %     epoch_type = 'sleep';
+    epoch_type = 'sleep';
 %     epoch_type = 'rest';
-% %     params_opts = [8:14];
-%     params_opts = [11];
-% %     params_opts = [16 17]; % longer state time decay
-% %     params_opts = [18 19 20]; % best bin sizes for 6m
-% %     params_opts = [21]; % random_walk (instead of empirical_speed), all other params as in opt 11
-% %     event_type = 'PE';
-%     event_type = 'posterior';
-%     flight_decoding_param_opt = 4; % best for 200/120m
-% %     flight_decoding_param_opt = 18; % best for 6m
-%     for params_opt = params_opts
-%         fprintf('params_opt: %d\n', params_opt);
-%         decode = decoding_load_data(exp_ID, epoch_type, params_opt);
-%         decoding_plot_MAP(decode,flight_decoding_param_opt);
-%         decoding_detect_posterior_events(decode);
-%         decoding_seq_quantify(decode, event_type);
-%         decoding_seq_quantify_add_info(exp_ID, epoch_type, params_opt , event_type);
-%         decoding_seq_quantify_plot(exp_ID, epoch_type, params_opt, event_type); 
-%         decoding_plot_PE_posterior(decode, event_type);
-%         decoding_plot_session_seqs(exp_ID, epoch_type, params_opt, event_type);
-%         decoding_calc_session_seqs_spikes_corr(exp_ID, epoch_type, params_opt, event_type);
-% %         decoding_xcorr_ripples_MUA_PE_vs_posterior_events(decode);
-%         close all
-%     end
-% %     decoding_compare_replay_speeds(exp_ID, epoch_type, params_opts, event_type);
+%     epoch_type = 'flight';
+%     params_opts = [4];
+    %Raz 3-9-2025: params_opts = [8:14]; that is the general search,
+    %replaced with below - specifically for replicating the results
+    % Code below ASSUME the Python decode was executed already.
+    % 1st: decoding each piece in a separate job, and 
+    % 2nd: all result files were collected from the cluster servers and joined into a single file
 
-catch err
-    getReport(err)
-    err_list{ii_exp}.exp_ID = exp_ID;
-    err_list{ii_exp}.err = err;
-end
+    params_opts = 11; %Raz 10-9-2025, per Tamirs statment [8:14]; 
+
+%     event_type = 'PE';
+    event_type = 'posterior';
+    flight_decoding_param_opt = 4; % best for 200/120m
+% %     flight_decoding_param_opt = 18; % best for 6m
+
+
+	%Raz 9-9-2025: trying to read exp_data only once...
+		use_as_exp_data = exp_load_data(exp_ID);
+
+		for params_opt = params_opts
+		   fprintf('params_opt: %d\n', params_opt);
+           decode = decoding_load_data(exp_ID, epoch_type, params_opt); % Raz 9-9-2025	use_as_decoded = decoding_load_data(exp_ID, epoch_type, params_opt, 'load_likelihood', true);
+
+		   decoding_plot_MAP(decode,flight_decoding_param_opt, use_as_exp_data);   
+		   decoding_detect_posterior_events(decode, use_as_exp_data); % Raz 9-9-2025 decoding_detect_posterior_events(exp_ID, epoch_type, params_opt, use_as_exp_data, use_as_decoded);
+		   decoding_seq_quantify(decode, event_type, use_as_exp_data); % Raz 9-9-2025 decoding_seq_quantify(exp_ID, epoch_type, params_opt, event_type, use_as_exp_data, use_as_decoded);
+		   decoding_seq_quantify_add_info(exp_ID, epoch_type, params_opt , event_type); 
+		   decoding_seq_quantify_plot(exp_ID, epoch_type, params_opt, event_type); 
+		   decoding_plot_PE_posterior(decode, event_type, 0.5, use_as_exp_data); % Raz 9-9-2025 decoding_plot_PE_posterior(exp_ID, epoch_type, params_opt, event_type, use_as_exp_data, use_as_decoded);
+		   decoding_plot_session_seqs(exp_ID, epoch_type, params_opt, event_type, use_as_exp_data);
+		   decoding_calc_session_seqs_spikes_corr(exp_ID, epoch_type, params_opt, event_type);
+		   decoding_xcorr_ripples_MUA_PE_vs_posterior_events(decode, use_as_exp_data); % Raz 9-9-2025 decoding_xcorr_ripples_MUA_PE_vs_posterior_events(exp_ID,epoch_type,params_opt, use_as_exp_data, use_as_decoded);
+		   close all
+		end
+    decoding_compare_replay_speeds(exp_ID, epoch_type, params_opts, event_type, use_as_exp_data); % Raz 9-9-2025 decoding_compare_replay_speeds(exp_ID, epoch_type, params_opts, event_type, use_as_exp_data);
+
+	catch err
+		getReport(err)
+		err_list{ii_exp}.exp_ID = exp_ID;
+		err_list{ii_exp}.err = err;
+	end
 
     save(strrep(log_name_out,'.txt','.mat'), 'err_list');
 

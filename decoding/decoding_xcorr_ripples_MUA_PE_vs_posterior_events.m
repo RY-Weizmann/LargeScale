@@ -1,4 +1,8 @@
-function decoding_xcorr_ripples_MUA_PE_vs_posterior_events(decode)
+function decoding_xcorr_ripples_MUA_PE_vs_posterior_events(decode, exp)
+arguments
+    decode
+	exp = struct.empty;
+end
 %%
 exp_ID = decode.exp_ID;
 epoch_type = decode.epoch_type;
@@ -9,7 +13,9 @@ dir_OUT = 'F:\sequences\xcorr_ripples_vs_posterior_events';
 mkdir(dir_OUT);
 
 %% load data
-exp = exp_load_data(exp_ID,'details','path','ripples','MUA','PE');
+if isempty(exp)
+	exp = exp_load_data(exp_ID,'details','path','ripples','MUA','PE');
+end
 [events, params] = decoding_load_events_quantification(exp_ID, epoch_type, params_opt, 'posterior');
 seqs = [events.seq_model];
 

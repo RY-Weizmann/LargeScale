@@ -1,9 +1,10 @@
-function decoding_plot_PE_posterior(decode, event_type, win_s)
+function decoding_plot_PE_posterior(decode, event_type, win_s, exp)
 arguments
     %% temp for development...
     decode
     event_type {mustBeMember(event_type,{'PE','posterior','ripples','MUA'})} = 'posterior'
     win_s = 0.5;
+	exp = struct.empty;
 end
 %%
 exp_ID = decode.exp_ID;
@@ -19,7 +20,9 @@ end
 mkdir(figs_dir);
 
 %% load data
-exp = exp_load_data(exp_ID, 'details','path','rest','ripples','MUA','PE','pos');
+if isempty(exp)
+	exp = exp_load_data(exp_ID, 'details','path','rest','ripples','MUA','PE','pos');
+end
 % events_all = decoding_load_events(exp_ID, epoch_type, params_opt, event_type);
 events_all = decoding_load_events_quantification(exp_ID, epoch_type, params_opt, event_type);
 seqs_all = [events_all.seq_model];

@@ -1,9 +1,16 @@
-function decoding_plot_session_seqs(exp_ID, epoch_type, params_opt, event_type)
+function decoding_plot_session_seqs(exp_ID, epoch_type, params_opt, event_type, exp)
+arguments
+	exp_ID
+	epoch_type
+	params_opt
+	exp = struct.empty;
+end
+
 switch epoch_type
     case 'rest'
-        plot_rest_session(exp_ID, epoch_type, params_opt, event_type);
+        plot_rest_session(exp_ID, epoch_type, params_opt, event_type, exp);
     case 'sleep'
-        plot_sleep_session(exp_ID, epoch_type, params_opt, event_type);
+        plot_sleep_session(exp_ID, epoch_type, params_opt, event_type, exp);
     otherwise
         fprintf('Epoch type: %s not supported\n',epoch_type)
 end
@@ -14,7 +21,9 @@ end
 function plot_rest_session(exp_ID, epoch_type, params_opt, event_type)
 %% load data
 % exp = exp_load_data(exp_ID, 'details','rest','pos','LM','MUA_FR_map','ripples','MUA');
-exp = exp_load_data(exp_ID, 'details','rest','pos','LM','MUA_FR_map');
+if isempty(exp)
+	exp = exp_load_data(exp_ID, 'details','rest','pos','LM','MUA_FR_map');
+end
 events= decoding_load_events_quantification(exp_ID, epoch_type, params_opt, event_type);
 seqs = [events.seq_model];
 [seqs, TF] = decoding_apply_seq_inclusion_criteria(seqs);
@@ -173,9 +182,20 @@ end
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-function plot_sleep_session(exp_ID, epoch_type, params_opt, event_type)
+function plot_sleep_session(exp_ID, epoch_type, params_opt, event_type, exp)
+arguments
+	exp_ID
+	epoch_type
+	params_opt
+	event_type
+	exp = struct.empty;
+end
 %% load data
-exp = exp_load_data(exp_ID, 'details','LM','rest','MUA_FR_map');
+
+if isempty(exp)
+	exp = exp_load_data(exp_ID, 'details','LM','rest','MUA_FR_map');
+end
+
 events= decoding_load_events_quantification(exp_ID, epoch_type, params_opt, event_type);
 seqs = [events.seq_model];
 [seqs, TF] = decoding_apply_seq_inclusion_criteria(seqs);

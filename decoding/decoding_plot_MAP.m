@@ -1,7 +1,8 @@
-function decoding_plot_MAP(decode,flight_decoding_param_opt)
+function decoding_plot_MAP(decode,flight_decoding_param_opt, exp)
 arguments
     decode
     flight_decoding_param_opt = 4
+	exp = struct.empty;
 end
 %%
 exp_ID = decode.exp_ID;
@@ -9,7 +10,9 @@ epoch_type = decode.epoch_type;
 params_opt = decode.params_opt;
 
 %% load data
-exp = exp_load_data(exp_ID, 'ripples','MUA','PE','LM','pos');
+if isempty(exp)
+	exp = exp_load_data(exp_ID, 'ripples','MUA','PE','LM','pos');
+end 
 if strcmp(epoch_type, 'flight')
     decode_flight = decode;
 else

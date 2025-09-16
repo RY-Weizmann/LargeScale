@@ -1,10 +1,11 @@
-function decoding_compare_replay_speeds(exp_ID, epoch_type, params_opts, event_type)
+function decoding_compare_replay_speeds(exp_ID, epoch_type, params_opts, event_type, exp)
 arguments
     %% 
     exp_ID = 'b9861_d180526'
     epoch_type {mustBeMember(epoch_type,{'sleep','rest','flight'})} = 'sleep'
     params_opts = [8:14]
     event_type {mustBeMember(event_type,{'PE','posterior','ripples','MUA'})} = 'posterior'
+	exp = struct.empty;
 end
 
 %% IN/OUT folders
@@ -12,7 +13,11 @@ dir_OUT = 'F:\sequences\events_quantification\compare_replay_speeds';
 mkdir(dir_OUT);
 
 %% load data
-exp = exp_load_data(exp_ID, 'details','path');
+%% load data
+if isempty(exp)
+    exp = exp_load_data(exp_ID, 'details','path');
+end
+
 events_per_opt={};
 params_per_opt={};
 for ii_opt = 1:length(params_opts)

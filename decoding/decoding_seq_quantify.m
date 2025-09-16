@@ -1,8 +1,9 @@
-function decoding_seq_quantify(decode, event_type)
+function decoding_seq_quantify(decode, event_type, exp)
 arguments
     %% 
     decode
     event_type {mustBeMember(event_type,{'PE','posterior','ripples','MUA'})} = 'posterior'
+	exp = struct.empty;
 end
 %%
 exp_ID = decode.exp_ID;
@@ -14,7 +15,13 @@ dir_OUT = 'F:\sequences\events_quantification';
 mkdir(dir_OUT);
 
 %% load data
-exp = exp_load_data(exp_ID, 'details','path','rest','ripples','MUA','PE','pos','flight','flight_6m');
+%exp = exp_load_data(exp_ID, 'details','path','rest','ripples','MUA','PE','pos','flight');
+%decode = decoding_load_data(exp_ID, epoch_type, params_opt, 'load_likelihood', true);
+%%
+if isempty(exp)
+	exp = exp = exp_load_data(exp_ID, 'details','path','rest','ripples','MUA','PE','pos','flight','flight_6m');
+end
+
 events = decoding_load_events(exp_ID, epoch_type, params_opt, event_type);
 
 %%
@@ -24,6 +31,7 @@ end
 if isfield(exp,'flight')
     FE = [exp.flight.FE];
 end
+
 
 %% params & consts
 radius = 5;
